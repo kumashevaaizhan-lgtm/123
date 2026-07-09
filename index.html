@@ -17,11 +17,11 @@
       </a>
       <nav class="nav" aria-label="Основная навигация">
         <a href="#catalog">Каталог</a>
-        <a href="#map">Карта</a>
+        <a href="#add-center">Добавить центр</a>
         <a href="#profile">Кабинет</a>
-        <a href="#admin">Админ</a>
       </nav>
-      <button class="primary-btn" data-scroll="add-center">Добавить центр</button>
+      <div class="auth-status" id="authStatus">Гость</div>
+      <button class="ghost-btn" id="openLogin">Войти</button>
     </header>
 
     <main>
@@ -30,14 +30,30 @@
           <p class="eyebrow">Караганда</p>
           <h1>Городской каталог образовательных центров, секций и кружков</h1>
           <p>
-            Быстрый поиск по возрасту, району, формату, цене и расписанию.
-            Родители сравнивают варианты, сохраняют избранное и записываются на пробное занятие.
+            Родители находят подходящие занятия, а образовательные центры входят в кабинет
+            и добавляют свои карточки в каталог.
           </p>
         </div>
-        <div class="search-panel" aria-label="Поиск центров">
+        <div class="login-card">
+          <p class="eyebrow">Демо-вход</p>
+          <h2>Войти на сайт</h2>
+          <p class="muted">Выберите роль и используйте логин-пароль.</p>
+          <div class="demo-logins">
+            <button class="demo-btn" data-demo="parent">Родитель</button>
+            <button class="demo-btn" data-demo="center">Образовательный центр</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <aside class="filters" aria-label="Фильтры">
+          <div class="section-head">
+            <h2>Фильтры</h2>
+            <button class="ghost-btn" id="resetFilters">Сброс</button>
+          </div>
           <label>
-            <span>Название или направление</span>
-            <input id="searchInput" type="search" placeholder="Ментальная арифметика, футбол, вокал" />
+            <span>Поиск</span>
+            <input id="searchInput" type="search" placeholder="Название, направление, район" />
           </label>
           <label>
             <span>Категория</span>
@@ -49,27 +65,6 @@
             </select>
           </label>
           <label>
-            <span>Возраст</span>
-            <select id="ageFilter">
-              <option value="all">Любой возраст</option>
-              <option value="3">3-5 лет</option>
-              <option value="6">6-9 лет</option>
-              <option value="10">10-13 лет</option>
-              <option value="14">14+ лет</option>
-            </select>
-          </label>
-          <button class="primary-btn" id="quickSearch">Найти</button>
-        </div>
-      </section>
-
-      <section class="workspace">
-        <aside class="filters" aria-label="Фильтры">
-          <div class="section-head">
-            <h2>Фильтры</h2>
-            <button class="ghost-btn" id="resetFilters">Сброс</button>
-          </div>
-
-          <label>
             <span>Район</span>
             <select id="districtFilter">
               <option value="all">Все районы</option>
@@ -79,49 +74,32 @@
               <option value="Пришахтинск">Пришахтинск</option>
             </select>
           </label>
-
+          <label>
+            <span>Возраст ребенка</span>
+            <select id="ageFilter">
+              <option value="all">Любой возраст</option>
+              <option value="3">3-5 лет</option>
+              <option value="6">6-9 лет</option>
+              <option value="10">10-13 лет</option>
+              <option value="14">14+ лет</option>
+            </select>
+          </label>
           <label>
             <span>Стоимость до <strong id="priceValue">60 000</strong> тг</span>
             <input id="priceFilter" type="range" min="0" max="60000" step="5000" value="60000" />
           </label>
-
-          <label>
-            <span>Минимальный рейтинг</span>
-            <select id="ratingFilter">
-              <option value="0">Любой</option>
-              <option value="4">4.0+</option>
-              <option value="4.5">4.5+</option>
-              <option value="4.8">4.8+</option>
-            </select>
-          </label>
-
           <div class="check-grid">
             <label><input id="trialFilter" type="checkbox" /> Пробное занятие</label>
-            <label><input id="placesFilter" type="checkbox" /> Есть места</label>
-            <label><input id="onlineFilter" type="checkbox" /> Онлайн</label>
-            <label><input id="groupFilter" type="checkbox" /> Групповые</label>
+            <label><input id="placesFilter" type="checkbox" /> Есть свободные места</label>
+            <label><input id="onlineFilter" type="checkbox" /> Онлайн-занятия</label>
           </div>
-
-          <label>
-            <span>Дни недели</span>
-            <select id="dayFilter">
-              <option value="all">Любые</option>
-              <option value="Пн">Пн</option>
-              <option value="Вт">Вт</option>
-              <option value="Ср">Ср</option>
-              <option value="Чт">Чт</option>
-              <option value="Пт">Пт</option>
-              <option value="Сб">Сб</option>
-              <option value="Вс">Вс</option>
-            </select>
-          </label>
         </aside>
 
         <section class="results">
           <div class="section-head">
             <div>
-              <p class="eyebrow">Популярные, новые и лучшие</p>
-              <h2 id="resultTitle">Подходящие центры</h2>
+              <p class="eyebrow">Каталог</p>
+              <h2>Подходящие центры</h2>
             </div>
             <div class="sorter">
               <span id="countLabel">0 вариантов</span>
@@ -135,10 +113,10 @@
           <div class="cards" id="cards"></div>
         </section>
 
-        <aside class="map-panel" id="map" aria-label="Интерактивная карта">
+        <aside class="map-panel" aria-label="Карта и сравнение">
           <div class="section-head">
             <h2>Карта</h2>
-            <span class="status-dot">OpenStreetMap</span>
+            <span class="status-dot">Караганда</span>
           </div>
           <div class="city-map" id="cityMap"></div>
           <div class="compare-box">
@@ -148,74 +126,91 @@
         </aside>
       </section>
 
+      <section class="add-center" id="add-center">
+        <div>
+          <p class="eyebrow">Кабинет образовательного центра</p>
+          <h2>Добавление карточки центра</h2>
+          <p class="muted" id="addCenterHint">
+            Войдите как образовательный центр, чтобы отправить карточку в каталог.
+          </p>
+        </div>
+        <form class="center-form" id="centerForm">
+          <input id="centerName" type="text" placeholder="Название центра" required />
+          <select id="centerCategory" required>
+            <option value="Образование">Образование</option>
+            <option value="Спорт">Спорт</option>
+            <option value="Творчество">Творчество</option>
+          </select>
+          <select id="centerDistrict" required>
+            <option value="Центр">Центр</option>
+            <option value="Юго-Восток">Юго-Восток</option>
+            <option value="Майкудук">Майкудук</option>
+            <option value="Пришахтинск">Пришахтинск</option>
+          </select>
+          <input id="centerAddress" type="text" placeholder="Адрес" required />
+          <input id="centerPhone" type="tel" placeholder="+7 700 000 00 00" required />
+          <input id="centerPrice" type="number" min="0" step="1000" placeholder="Цена в месяц, тг" required />
+          <div class="form-row">
+            <input id="centerAgeMin" type="number" min="2" max="18" placeholder="Возраст от" required />
+            <input id="centerAgeMax" type="number" min="2" max="18" placeholder="Возраст до" required />
+          </div>
+          <textarea id="centerDescription" placeholder="Краткое описание занятий" required></textarea>
+          <div class="check-grid compact">
+            <label><input id="centerTrial" type="checkbox" checked /> Есть пробное занятие</label>
+            <label><input id="centerPlaces" type="checkbox" checked /> Есть свободные места</label>
+            <label><input id="centerOnline" type="checkbox" /> Доступен онлайн-формат</label>
+          </div>
+          <button class="primary-btn" type="submit">Добавить карточку</button>
+          <p class="form-message" id="formMessage"></p>
+        </form>
+      </section>
+
       <section class="profile" id="profile">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Личный кабинет родителя</p>
-            <h2>Семейный подбор</h2>
+            <p class="eyebrow">Личный кабинет</p>
+            <h2 id="cabinetTitle">Гостевой режим</h2>
           </div>
         </div>
         <div class="dashboard-grid">
           <div class="info-block">
             <h3>Профиль</h3>
-            <p>Алия, мама двоих детей</p>
-            <p class="muted">Аружан, 7 лет · Данияр, 11 лет</p>
+            <p id="profileSummary">Войдите, чтобы увидеть персональный кабинет.</p>
           </div>
           <div class="info-block">
             <h3>Избранное</h3>
             <p id="favoriteSummary">Пока нет сохраненных центров</p>
           </div>
           <div class="info-block">
-            <h3>Онлайн-общение</h3>
-            <p>3 активных диалога с центрами</p>
-            <button class="secondary-btn">Открыть чат</button>
+            <h3>Мои карточки</h3>
+            <p id="myCentersSummary">Карточки появятся после добавления центра.</p>
           </div>
           <div class="info-block">
-            <h3>Рекомендации</h3>
-            <p>Подборки обновляются по возрасту, району и истории просмотров.</p>
+            <h3>Сообщения</h3>
+            <p id="messagesSummary">Войдите, чтобы общаться с центрами и родителями.</p>
           </div>
         </div>
-      </section>
-
-      <section class="admin" id="admin">
-        <div class="section-head">
-          <div>
-            <p class="eyebrow">Кабинет центра и администратора</p>
-            <h2>Управление каталогом</h2>
-          </div>
-        </div>
-        <div class="ops-grid">
-          <div class="info-block">
-            <h3>Карточка центра</h3>
-            <p>Логотип, фото, адрес, контакты, цены, расписание, новости и акции.</p>
-          </div>
-          <div class="info-block">
-            <h3>Расписание</h3>
-            <p>Группы, индивидуальные занятия, свободные места и пробные уроки.</p>
-          </div>
-          <div class="info-block">
-            <h3>Модерация</h3>
-            <p>Проверка новых центров, категорий, отзывов и обновлений карточек.</p>
-          </div>
-          <div class="info-block">
-            <h3>Аналитика</h3>
-            <p>Просмотры, заявки, рейтинг, конверсия записи и популярные направления.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="add-center" id="add-center">
-        <div>
-          <p class="eyebrow">Новые центры</p>
-          <h2>Заявка проходит модерацию перед публикацией</h2>
-        </div>
-        <form class="add-form">
-          <input type="text" placeholder="Название центра" aria-label="Название центра" />
-          <input type="tel" placeholder="+7 700 000 00 00" aria-label="Телефон" />
-          <button class="primary-btn" type="button">Отправить</button>
-        </form>
       </section>
     </main>
+
+    <dialog id="loginDialog">
+      <button class="close-btn" id="closeLogin" aria-label="Закрыть">×</button>
+      <form class="dialog-inner auth-form" id="loginForm">
+        <div>
+          <p class="eyebrow">Вход по логин-паролю</p>
+          <h2>Авторизация</h2>
+          <p class="muted">Демо-аккаунты: parent@example.com / parent123, center@example.com / center123</p>
+        </div>
+        <div class="role-switch" role="group" aria-label="Роль пользователя">
+          <label><input type="radio" name="role" value="parent" checked /> Родитель</label>
+          <label><input type="radio" name="role" value="center" /> Образовательный центр</label>
+        </div>
+        <input id="loginEmail" type="email" placeholder="Логин / email" required />
+        <input id="loginPassword" type="password" placeholder="Пароль" required />
+        <button class="primary-btn" type="submit">Войти</button>
+        <p class="form-message" id="loginMessage"></p>
+      </form>
+    </dialog>
 
     <dialog id="centerDialog">
       <button class="close-btn" id="closeDialog" aria-label="Закрыть">×</button>
