@@ -28,7 +28,8 @@ body {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -167,6 +168,42 @@ main {
   padding: 18px;
 }
 
+.login-card {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.login-card h2,
+.login-card p {
+  margin: 0;
+}
+
+.demo-logins {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.demo-btn {
+  min-height: 48px;
+  padding: 0 12px;
+  color: var(--ink);
+  background: #eef3ed;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-weight: 850;
+}
+
+.demo-btn:hover {
+  border-color: var(--green);
+}
+
 label {
   display: grid;
   gap: 7px;
@@ -176,7 +213,8 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
   width: 100%;
   min-height: 44px;
   padding: 0 12px;
@@ -188,9 +226,16 @@ select {
 }
 
 input:focus,
-select:focus {
+select:focus,
+textarea:focus {
   border-color: var(--blue);
   box-shadow: 0 0 0 3px rgba(37, 111, 156, 0.14);
+}
+
+textarea {
+  min-height: 96px;
+  padding-block: 12px;
+  resize: vertical;
 }
 
 .primary-btn,
@@ -217,6 +262,19 @@ select:focus {
 .ghost-btn {
   color: var(--green);
   background: #e8f4ef;
+}
+
+.auth-status {
+  max-width: 260px;
+  padding: 9px 12px;
+  color: var(--muted);
+  background: #eef3ed;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .workspace {
@@ -316,6 +374,18 @@ select:focus {
     linear-gradient(135deg, rgba(255, 255, 255, 0.5), transparent 55%),
     radial-gradient(circle at 82% 22%, rgba(255, 255, 255, 0.56), transparent 0 54px),
     radial-gradient(circle at 12% 88%, rgba(0, 0, 0, 0.14), transparent 0 70px);
+}
+
+.moderation-chip {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 9px;
+  color: white;
+  background: rgba(32, 36, 42, 0.72);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 850;
 }
 
 .logo-chip {
@@ -503,10 +573,86 @@ select:focus {
   margin: 0;
 }
 
-.add-form {
+.add-form,
+.center-form {
   display: grid;
-  grid-template-columns: 1fr 180px 130px;
   gap: 10px;
+}
+
+.add-form {
+  grid-template-columns: 1fr 180px 130px;
+}
+
+.center-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.center-form textarea,
+.center-form .check-grid,
+.center-form .primary-btn,
+.center-form .form-message {
+  grid-column: 1 / -1;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.center-form.locked {
+  opacity: 0.68;
+}
+
+.center-form.locked input,
+.center-form.locked select,
+.center-form.locked textarea {
+  pointer-events: none;
+}
+
+.form-message {
+  min-height: 22px;
+  margin: 0;
+  color: var(--green);
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.auth-form {
+  padding-top: 28px;
+}
+
+.auth-form h2,
+.auth-form p {
+  margin: 0;
+}
+
+.role-switch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.role-switch label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 12px;
+  color: var(--ink);
+  background: #f4f7f3;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.role-switch input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--green);
 }
 
 dialog {
@@ -609,6 +755,10 @@ dialog::backdrop {
   .add-form {
     grid-template-columns: 1fr;
   }
+
+  .center-form {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 560px) {
@@ -645,7 +795,11 @@ dialog::backdrop {
   .cards,
   .dashboard-grid,
   .ops-grid,
-  .dialog-grid {
+  .dialog-grid,
+  .demo-logins,
+  .role-switch,
+  .compact,
+  .form-row {
     grid-template-columns: 1fr;
   }
 }
